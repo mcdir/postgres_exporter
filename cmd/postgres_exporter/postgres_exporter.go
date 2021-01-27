@@ -1191,7 +1191,7 @@ func newDesc(subsystem, name, help string, labels prometheus.Labels) *prometheus
 }
 
 func queryDatabases(server *Server) ([]string, error) {
-	rows, err := server.db.Query("SELECT datname FROM pg_database WHERE datallowconn = true AND datistemplate = false AND datname != current_database()") // nolint: safesql
+	rows, err := server.db.Query("SELECT datname FROM pg_database WHERE datallowconn = true AND datistemplate = false AND datname != current_database() AND datname != 'rdsadmin'") // nolint: safesql
 	if err != nil {
 		return nil, fmt.Errorf("Error retrieving databases: %v", err)
 	}
